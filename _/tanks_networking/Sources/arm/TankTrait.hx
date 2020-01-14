@@ -1,7 +1,7 @@
 package arm;
 
-import kha.network.Entity;
-import kha.network.Sync;
+import kha.netsync.Entity;
+import kha.netsync.Sync;
 
 class TankTrait extends iron.Trait implements Entity implements Sync {
 

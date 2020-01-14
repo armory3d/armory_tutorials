@@ -1,7 +1,7 @@
 package arm;
 
-import kha.network.Entity;
-import kha.network.Sync;
+import kha.netsync.Entity;
+import kha.netsync.Sync;
 import iron.object.Object;
 
 class FireTrait extends iron.Trait implements Entity implements Sync {
