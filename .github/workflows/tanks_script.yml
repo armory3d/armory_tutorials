@@ -1,0 +1,113 @@
+name: tanks_script
+
+on:
+  push:
+    paths:
+      - tanks_script/**
+      - .github/workflows/tanks_script.yml
+
+jobs:
+  html5:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: html5
+      - name: Check export result
+        run: |
+          tree ${{ env.project }}
+          test -f ${{ env.project }}/khafile.js
+          test -f ${{ env.project }}/Sources/Main.hx
+          test -f ${{ env.project }}/build_${{ env.project }}/html5/kha.js
+      - name: Store artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.project }}_html5
+          path: ${{ env.project }}/build_${{ env.project }}/html5
+      - name: Deploy gh-pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: ${{ env.project }}/build_${{ env.project }}/html5
+          target-folder: ${{ env.project }}
+  krom-linux:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: krom-linux
+      - name: Check export result
+        run: |
+          tree ${{ env.project }}
+          test -f ${{ env.project }}/khafile.js
+          test -f ${{ env.project }}/Sources/Main.hx
+      - name: Store artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.project }}_krom
+          path: ${{ env.project }}/build_${{ env.project }}/krom-linux
+  linux-hl:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: linux-hl
+  android-hl:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: android-hl
+  windows-hl:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: windows-hl
+  macos-hl:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: macos-hl
+  ios-hl:
+    runs-on: ubuntu-latest
+    env:
+      project: tanks_script
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        uses: tong/armory_gh_actions@v0.0.32
+        with:
+          blend: ${{ env.project }}/${{ env.project }}.blend
+          exporter: ios-hl
