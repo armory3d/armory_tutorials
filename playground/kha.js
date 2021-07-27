@@ -331,44 +331,100 @@ arm_node_MoveCylinder.__name__ = true;
 arm_node_MoveCylinder.__super__ = armory_logicnode_LogicTree;
 arm_node_MoveCylinder.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 	add: function() {
-		var _SetObjectLocation = new armory_logicnode_SetLocationNode(this);
-		var _OnUpdate_001 = new armory_logicnode_OnUpdateNode(this);
-		_OnUpdate_001.property0 = "Update";
-		_OnUpdate_001.addOutputs([_SetObjectLocation]);
-		_SetObjectLocation.addInput(_OnUpdate_001,0);
-		_SetObjectLocation.addInput(new armory_logicnode_ObjectNode(this,""),0);
-		var _Vector_001 = new armory_logicnode_VectorNode(this);
-		var _Math = new armory_logicnode_MathNode(this);
-		_Math.property0 = "Add";
-		_Math.property1 = "false";
+		var _SetObjectLocation_001 = new armory_logicnode_SetLocationNode(this);
+		_SetObjectLocation_001.inputs.length = 4;
+		_SetObjectLocation_001.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _SetObjectLocation_001.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_SetObjectLocation_001.outputs[i] = [];
+		}
+		var _OnUpdate = new armory_logicnode_OnUpdateNode(this);
+		_OnUpdate.property0 = "Update";
+		_OnUpdate.inputs.length = 0;
+		_OnUpdate.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _OnUpdate.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_OnUpdate.outputs[i] = [];
+		}
+		armory_logicnode_LogicNode.addLink(_OnUpdate,_SetObjectLocation_001,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_SetObjectLocation_001,0,1);
+		var _Vector = new armory_logicnode_VectorNode(this);
+		_Vector.inputs.length = 3;
+		_Vector.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _Vector.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_Vector.outputs[i] = [];
+		}
 		var _Math_002 = new armory_logicnode_MathNode(this);
 		_Math_002.property0 = "Add";
-		_Math_002.property1 = "false";
-		var _GetApplicationTime = new armory_logicnode_TimeNode(this);
-		_GetApplicationTime.addOutputs([_Math_002]);
-		_GetApplicationTime.addOutputs([new armory_logicnode_FloatNode(this,0.0)]);
-		_Math_002.addInput(_GetApplicationTime,0);
-		_Math_002.addInput(new armory_logicnode_FloatNode(this,0.5),0);
-		_Math_002.addOutputs([_Math]);
-		_Math.addInput(_Math_002,0);
-		_Math.addInput(new armory_logicnode_FloatNode(this,4.0),0);
-		_Math.addOutputs([_Vector_001]);
-		_Vector_001.addInput(_Math,0);
-		var _SeparateXYZ_001 = new armory_logicnode_SeparateVectorNode(this);
-		var _GetObjectLocation = new armory_logicnode_GetLocationNode(this);
-		_GetObjectLocation.addInput(new armory_logicnode_ObjectNode(this,""),0);
-		_GetObjectLocation.addInput(new armory_logicnode_BooleanNode(this,false),0);
-		_GetObjectLocation.addOutputs([_SeparateXYZ_001]);
-		_SeparateXYZ_001.addInput(_GetObjectLocation,0);
-		_SeparateXYZ_001.addOutputs([new armory_logicnode_FloatNode(this,0.0)]);
-		_SeparateXYZ_001.addOutputs([_Vector_001]);
-		_SeparateXYZ_001.addOutputs([_Vector_001]);
-		_Vector_001.addInput(_SeparateXYZ_001,1);
-		_Vector_001.addInput(_SeparateXYZ_001,2);
-		_Vector_001.addOutputs([_SetObjectLocation]);
-		_SetObjectLocation.addInput(_Vector_001,0);
-		_SetObjectLocation.addInput(new armory_logicnode_BooleanNode(this,false),0);
-		_SetObjectLocation.addOutputs([new armory_logicnode_NullNode(this)]);
+		_Math_002.property1 = false;
+		_Math_002.inputs.length = 2;
+		_Math_002.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _Math_002.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_Math_002.outputs[i] = [];
+		}
+		var _Math_001 = new armory_logicnode_MathNode(this);
+		_Math_001.property0 = "Add";
+		_Math_001.property1 = false;
+		_Math_001.inputs.length = 2;
+		_Math_001.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _Math_001.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_Math_001.outputs[i] = [];
+		}
+		var _GetApplicationTime_001 = new armory_logicnode_TimeNode(this);
+		_GetApplicationTime_001.inputs.length = 0;
+		_GetApplicationTime_001.outputs.length = 2;
+		var _g = 0;
+		var _g1 = _GetApplicationTime_001.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_GetApplicationTime_001.outputs[i] = [];
+		}
+		armory_logicnode_LogicNode.addLink(_GetApplicationTime_001,new armory_logicnode_FloatNode(this,0.0),1,0);
+		armory_logicnode_LogicNode.addLink(_GetApplicationTime_001,_Math_001,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(this,0.5),_Math_001,0,1);
+		armory_logicnode_LogicNode.addLink(_Math_001,_Math_002,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(this,4.0),_Math_002,0,1);
+		armory_logicnode_LogicNode.addLink(_Math_002,_Vector,0,0);
+		var _SeparateXYZ = new armory_logicnode_SeparateVectorNode(this);
+		_SeparateXYZ.inputs.length = 1;
+		_SeparateXYZ.outputs.length = 3;
+		var _g = 0;
+		var _g1 = _SeparateXYZ.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_SeparateXYZ.outputs[i] = [];
+		}
+		var _GetObjectLocation_001 = new armory_logicnode_GetLocationNode(this);
+		_GetObjectLocation_001.inputs.length = 2;
+		_GetObjectLocation_001.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _GetObjectLocation_001.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_GetObjectLocation_001.outputs[i] = [];
+		}
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_GetObjectLocation_001,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_BooleanNode(this,false),_GetObjectLocation_001,0,1);
+		armory_logicnode_LogicNode.addLink(_GetObjectLocation_001,_SeparateXYZ,0,0);
+		armory_logicnode_LogicNode.addLink(_SeparateXYZ,new armory_logicnode_FloatNode(this,0.0),0,0);
+		armory_logicnode_LogicNode.addLink(_SeparateXYZ,_Vector,1,1);
+		armory_logicnode_LogicNode.addLink(_SeparateXYZ,_Vector,2,2);
+		armory_logicnode_LogicNode.addLink(_Vector,_SetObjectLocation_001,0,2);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_BooleanNode(this,false),_SetObjectLocation_001,0,3);
+		armory_logicnode_LogicNode.addLink(_SetObjectLocation_001,new armory_logicnode_NullNode(this),0,0);
 	}
 	,__class__: arm_node_MoveCylinder
 });
@@ -382,14 +438,28 @@ var armory_logicnode_LogicNode = function(tree) {
 };
 $hxClasses["armory.logicnode.LogicNode"] = armory_logicnode_LogicNode;
 armory_logicnode_LogicNode.__name__ = true;
+armory_logicnode_LogicNode.addLink = function(fromNode,toNode,fromIndex,toIndex) {
+	var link = new armory_logicnode_LogicNodeLink(fromNode,toNode,fromIndex,toIndex);
+	if(toNode.inputs.length <= toIndex) {
+		toNode.inputs.length = toIndex + 1;
+	}
+	toNode.inputs[toIndex] = link;
+	var fromNodeOuts = fromNode.outputs;
+	var outLen = fromNodeOuts.length;
+	if(outLen <= fromIndex) {
+		fromNodeOuts.length = fromIndex + 1;
+		var _g = outLen;
+		var _g1 = fromIndex + 1;
+		while(_g < _g1) {
+			var i = _g++;
+			fromNodeOuts[i] = [];
+		}
+	}
+	fromNodeOuts[fromIndex].push(link);
+	return link;
+};
 armory_logicnode_LogicNode.prototype = {
-	addInput: function(node,from) {
-		this.inputs.push(new armory_logicnode_LogicNodeInput(node,from));
-	}
-	,addOutputs: function(nodes) {
-		this.outputs.push(nodes);
-	}
-	,run: function(from) {
+	run: function(from) {
 	}
 	,runOutput: function(i) {
 		if(i >= this.outputs.length) {
@@ -398,19 +468,9 @@ armory_logicnode_LogicNode.prototype = {
 		var _g = 0;
 		var _g1 = this.outputs[i];
 		while(_g < _g1.length) {
-			var output = _g1[_g];
+			var outLink = _g1[_g];
 			++_g;
-			var _g2 = 0;
-			var _g3 = output.inputs.length;
-			while(_g2 < _g3) {
-				var j = _g2++;
-				if(output.inputs[j].node == this) {
-					if(output.inputs[j].from == i) {
-						output.run(j);
-						break;
-					}
-				}
-			}
+			outLink.toNode.run(outLink.toIndex);
 		}
 	}
 	,get: function(from) {
@@ -431,7 +491,8 @@ armory_logicnode_BooleanNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_BooleanNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	get: function(from) {
 		if(this.inputs.length > 0) {
-			return this.inputs[0].get();
+			var _this = this.inputs[0];
+			return _this.fromNode.get(_this.fromIndex);
 		}
 		return this.value;
 	}
@@ -450,7 +511,8 @@ armory_logicnode_FloatNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_FloatNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	get: function(from) {
 		if(this.inputs.length > 0) {
-			return this.inputs[0].get();
+			var _this = this.inputs[0];
+			return _this.fromNode.get(_this.fromIndex);
 		}
 		return this.value;
 	}
@@ -480,7 +542,8 @@ armory_logicnode_FunctionOutputNode.__name__ = true;
 armory_logicnode_FunctionOutputNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_FunctionOutputNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	run: function(from) {
-		this.result = this.inputs[1].get();
+		var _this = this.inputs[1];
+		this.result = _this.fromNode.get(_this.fromIndex);
 		this.runOutput(0);
 	}
 	,__class__: armory_logicnode_FunctionOutputNode
@@ -493,8 +556,10 @@ armory_logicnode_GetLocationNode.__name__ = true;
 armory_logicnode_GetLocationNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_GetLocationNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	get: function(from) {
-		var object = this.inputs[0].get();
-		var relative = this.inputs[1].get();
+		var _this = this.inputs[0];
+		var object = _this.fromNode.get(_this.fromIndex);
+		var _this = this.inputs[1];
+		var relative = _this.fromNode.get(_this.fromIndex);
 		if(object == null) {
 			return null;
 		}
@@ -588,17 +653,16 @@ armory_logicnode_GetLocationNode.prototype = $extend(armory_logicnode_LogicNode.
 	}
 	,__class__: armory_logicnode_GetLocationNode
 });
-var armory_logicnode_LogicNodeInput = function(node,from) {
-	this.node = node;
-	this.from = from;
+var armory_logicnode_LogicNodeLink = function(fromNode,toNode,fromIndex,toIndex) {
+	this.fromNode = fromNode;
+	this.toNode = toNode;
+	this.fromIndex = fromIndex;
+	this.toIndex = toIndex;
 };
-$hxClasses["armory.logicnode.LogicNodeInput"] = armory_logicnode_LogicNodeInput;
-armory_logicnode_LogicNodeInput.__name__ = true;
-armory_logicnode_LogicNodeInput.prototype = {
-	get: function() {
-		return this.node.get(this.from);
-	}
-	,__class__: armory_logicnode_LogicNodeInput
+$hxClasses["armory.logicnode.LogicNodeLink"] = armory_logicnode_LogicNodeLink;
+armory_logicnode_LogicNodeLink.__name__ = true;
+armory_logicnode_LogicNodeLink.prototype = {
+	__class__: armory_logicnode_LogicNodeLink
 };
 var armory_logicnode_MathNode = function(tree) {
 	armory_logicnode_LogicNode.call(this,tree);
@@ -611,7 +675,8 @@ armory_logicnode_MathNode.prototype = $extend(armory_logicnode_LogicNode.prototy
 		var r = 0.0;
 		switch(this.property0) {
 		case "Abs":
-			r = Math.abs(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.abs(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Add":
 			var _g = 0;
@@ -619,96 +684,136 @@ armory_logicnode_MathNode.prototype = $extend(armory_logicnode_LogicNode.prototy
 			while(_g < _g1.length) {
 				var inp = _g1[_g];
 				++_g;
-				r += inp.get();
+				r += inp.fromNode.get(inp.fromIndex);
 			}
 			break;
 		case "Arccosine":
-			r = Math.acos(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.acos(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Arcsine":
-			r = Math.asin(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.asin(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Arctan2":
-			r = Math.atan2(this.inputs[0].get(),this.inputs[1].get());
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = Math.atan2(r1,_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Arctangent":
-			r = Math.atan(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.atan(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Ceil":
-			r = Math.ceil(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.ceil(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Cosine":
-			r = Math.cos(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.cos(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Divide":
-			r = this.inputs[0].get();
+			var _this = this.inputs[0];
+			r = _this.fromNode.get(_this.fromIndex);
 			var i = 1;
 			while(i < this.inputs.length) {
-				r /= this.inputs[i].get();
+				var _this = this.inputs[i];
+				r /= _this.fromNode.get(_this.fromIndex);
 				++i;
 			}
 			break;
 		case "Exp":
-			r = Math.exp(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.exp(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Floor":
-			r = Math.floor(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.floor(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Fract":
-			var v = this.inputs[0].get();
+			var _this = this.inputs[0];
+			var v = _this.fromNode.get(_this.fromIndex);
 			r = v - (v | 0);
 			break;
 		case "Greater Than":
-			r = this.inputs[0].get() > this.inputs[1].get() ? 1.0 : 0.0;
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = r1 > _this.fromNode.get(_this.fromIndex) ? 1.0 : 0.0;
 			break;
 		case "Less Than":
-			r = this.inputs[0].get() < this.inputs[1].get() ? 1.0 : 0.0;
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = r1 < _this.fromNode.get(_this.fromIndex) ? 1.0 : 0.0;
 			break;
 		case "Logarithm":
-			r = Math.log(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.log(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Max":
-			r = Math.max(this.inputs[0].get(),this.inputs[1].get());
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = Math.max(r1,_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Min":
-			r = Math.min(this.inputs[0].get(),this.inputs[1].get());
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = Math.min(r1,_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Modulo":
-			r = this.inputs[0].get() % this.inputs[1].get();
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = r1 % _this.fromNode.get(_this.fromIndex);
 			break;
 		case "Multiply":
-			r = this.inputs[0].get();
+			var _this = this.inputs[0];
+			r = _this.fromNode.get(_this.fromIndex);
 			var i = 1;
 			while(i < this.inputs.length) {
-				r *= this.inputs[i].get();
+				var _this = this.inputs[i];
+				r *= _this.fromNode.get(_this.fromIndex);
 				++i;
 			}
 			break;
 		case "Power":
-			r = Math.pow(this.inputs[0].get(),this.inputs[1].get());
+			var _this = this.inputs[0];
+			var r1 = _this.fromNode.get(_this.fromIndex);
+			var _this = this.inputs[1];
+			r = Math.pow(r1,_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Round":
-			r = Math.round(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.round(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Sine":
-			r = Math.sin(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.sin(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Square Root":
-			r = Math.sqrt(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.sqrt(_this.fromNode.get(_this.fromIndex));
 			break;
 		case "Subtract":
-			r = this.inputs[0].get();
+			var _this = this.inputs[0];
+			r = _this.fromNode.get(_this.fromIndex);
 			var i = 1;
 			while(i < this.inputs.length) {
-				r -= this.inputs[i].get();
+				var _this = this.inputs[i];
+				r -= _this.fromNode.get(_this.fromIndex);
 				++i;
 			}
 			break;
 		case "Tangent":
-			r = Math.tan(this.inputs[0].get());
+			var _this = this.inputs[0];
+			r = Math.tan(_this.fromNode.get(_this.fromIndex));
 			break;
 		}
-		if(this.property1 == "true") {
+		if(this.property1) {
 			if(r < 0.0) {
 				r = 0.0;
 			} else if(r > 1.0) {
@@ -745,7 +850,8 @@ armory_logicnode_ObjectNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_ObjectNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	get: function(from) {
 		if(this.inputs.length > 0) {
-			return this.inputs[0].get();
+			var _this = this.inputs[0];
+			return _this.fromNode.get(_this.fromIndex);
 		}
 		if(this.value == null) {
 			this.value = this.objectName != "" ? iron_Scene.active.getChild(this.objectName) : this.tree.object;
@@ -787,7 +893,8 @@ armory_logicnode_SeparateVectorNode.__name__ = true;
 armory_logicnode_SeparateVectorNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_SeparateVectorNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	get: function(from) {
-		var vector = this.inputs[0].get();
+		var _this = this.inputs[0];
+		var vector = _this.fromNode.get(_this.fromIndex);
 		if(vector == null) {
 			return 0.0;
 		}
@@ -809,9 +916,12 @@ armory_logicnode_SetLocationNode.__name__ = true;
 armory_logicnode_SetLocationNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_SetLocationNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	run: function(from) {
-		var object = this.inputs[1].get();
-		var vec = this.inputs[2].get();
-		var relative = this.inputs[3].get();
+		var _this = this.inputs[1];
+		var object = _this.fromNode.get(_this.fromIndex);
+		var _this = this.inputs[2];
+		var vec = _this.fromNode.get(_this.fromIndex);
+		var _this = this.inputs[3];
+		var relative = _this.fromNode.get(_this.fromIndex);
 		if(object == null || vec == null) {
 			return;
 		}
@@ -953,9 +1063,9 @@ var armory_logicnode_VectorNode = function(tree,x,y,z) {
 	this.value = new iron_math_Vec4();
 	armory_logicnode_LogicNode.call(this,tree);
 	if(x != null) {
-		this.addInput(new armory_logicnode_FloatNode(tree,x),0);
-		this.addInput(new armory_logicnode_FloatNode(tree,y),0);
-		this.addInput(new armory_logicnode_FloatNode(tree,z),0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(tree,x),this,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(tree,y),this,0,1);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(tree,z),this,0,2);
 	}
 };
 $hxClasses["armory.logicnode.VectorNode"] = armory_logicnode_VectorNode;
@@ -964,9 +1074,15 @@ armory_logicnode_VectorNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_VectorNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
 	get: function(from) {
 		this.value = new iron_math_Vec4();
-		this.value.x = this.inputs[0].get();
-		this.value.y = this.inputs[1].get();
-		this.value.z = this.inputs[2].get();
+		var _this = this.inputs[0];
+		var tmp = _this.fromNode.get(_this.fromIndex);
+		this.value.x = tmp;
+		var _this = this.inputs[1];
+		var tmp = _this.fromNode.get(_this.fromIndex);
+		this.value.y = tmp;
+		var _this = this.inputs[2];
+		var tmp = _this.fromNode.get(_this.fromIndex);
+		this.value.z = tmp;
 		return this.value;
 	}
 	,__class__: armory_logicnode_VectorNode
