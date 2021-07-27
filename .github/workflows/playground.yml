@@ -27,7 +27,7 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutotorial-${{ env.project }}-html5
+          name: ${{ env.project }}-html5
           path: ${{ env.project }}/build_${{ env.project }}/html5
       - name: Deploy gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
@@ -54,7 +54,7 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutorial-${{ env.project }}-krom-linux
+          name: ${{ env.project }}-krom-linux
           path: ${{ env.project }}/build_${{ env.project }}/krom-linux
   linux-hl:
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutorial-${{ env.project }}-linux
+          name: ${{ env.project }}-linux
           path: ${{ env.project }}/build_${{ env.project }}/linux-hl
   android-hl:
     runs-on: ubuntu-latest
@@ -86,7 +86,7 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutorial-${{ env.project }}-android
+          name: ${{ env.project }}-android
           path: ${{ env.project }}/build_${{ env.project }}/android-hl
   windows-hl:
     runs-on: ubuntu-latest
@@ -102,7 +102,7 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutorial-${{ env.project }}-windows
+          name: ${{ env.project }}-windows
           path: ${{ env.project }}/build_${{ env.project }}/windows-hl
   macos-hl:
     runs-on: ubuntu-latest
@@ -118,7 +118,7 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutorial-${{ env.project }}-macos
+          name: ${{ env.project }}-macos
           path: ${{ env.project }}/build_${{ env.project }}/macos-hl
   ios-hl:
     runs-on: ubuntu-latest
@@ -134,5 +134,5 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v2
         with:
-          name: armory_tutorial-${{ env.project }}-ios
+          name: ${{ env.project }}-ios
           path: ${{ env.project }}/build_${{ env.project }}/ios-hl
