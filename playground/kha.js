@@ -1953,6 +1953,10 @@ iron_math_Mat4.prototype = {
 var armory_trait_PhysicsDrag = function() {
 	this.pickedBody = null;
 	this.pickConstraint = null;
+	this.angularUpperLimit = new iron_math_Vec3(10,10,10);
+	this.angularLowerLimit = new iron_math_Vec3(-10,-10,-10);
+	this.linearUpperLimit = new iron_math_Vec3(0,0,0);
+	this.linearLowerLimit = new iron_math_Vec3(0,0,0);
 	iron_Trait.call(this);
 	if(armory_trait_PhysicsDrag.first) {
 		armory_trait_PhysicsDrag.first = false;
@@ -2087,10 +2091,10 @@ armory_trait_PhysicsDrag.prototype = $extend(iron_Trait.prototype,{
 				tr.setIdentity();
 				tr.setOrigin(localPivot);
 				this.pickConstraint = new Ammo.btGeneric6DofConstraint(b.body,tr,false);
-				this.pickConstraint.setLinearLowerLimit(new Ammo.btVector3(0,0,0));
-				this.pickConstraint.setLinearUpperLimit(new Ammo.btVector3(0,0,0));
-				this.pickConstraint.setAngularLowerLimit(new Ammo.btVector3(-10,-10,-10));
-				this.pickConstraint.setAngularUpperLimit(new Ammo.btVector3(10,10,10));
+				this.pickConstraint.setLinearLowerLimit(new Ammo.btVector3(this.linearLowerLimit.x,this.linearLowerLimit.y,this.linearLowerLimit.z));
+				this.pickConstraint.setLinearUpperLimit(new Ammo.btVector3(this.linearUpperLimit.x,this.linearUpperLimit.y,this.linearUpperLimit.z));
+				this.pickConstraint.setAngularLowerLimit(new Ammo.btVector3(this.angularLowerLimit.x,this.angularLowerLimit.y,this.angularLowerLimit.z));
+				this.pickConstraint.setAngularUpperLimit(new Ammo.btVector3(this.angularUpperLimit.x,this.angularUpperLimit.y,this.angularUpperLimit.z));
 				physics.world.addConstraint(this.pickConstraint,false);
 				var _this = armory_trait_PhysicsDrag.v;
 				var x = hit.x - this.rayFrom.x();
@@ -2198,13 +2202,13 @@ var armory_trait_internal_CanvasScript = function(canvasName,font) {
 			if(armory_ui_Canvas.themes.length == 0) {
 				armory_ui_Canvas.themes.push(armory_ui_Themes.light);
 			}
-			iron_data_Data.getFont(font,function(f) {
+			iron_data_Data.getFont(font,function(defaultFont) {
 				var c = JSON.parse(blob.toString());
 				if(c.theme == null) {
 					c.theme = armory_ui_Canvas.themes[0].NAME;
 				}
 				var tmp = armory_ui_Canvas.getTheme(c.theme);
-				_gthis.cui = new zui_Zui({ font : f, theme : tmp});
+				_gthis.cui = new zui_Zui({ font : defaultFont, theme : tmp});
 				if(c.assets == null || c.assets.length == 0) {
 					_gthis.canvas = c;
 				} else {
@@ -2215,14 +2219,25 @@ var armory_trait_internal_CanvasScript = function(canvasName,font) {
 						var asset = [_g1[_g]];
 						++_g;
 						var file = asset[0].name;
-						iron_data_Data.getImage(file,(function(asset) {
-							return function(image) {
-								armory_ui_Canvas.assetMap.h[asset[0].id] = image;
-								if((loaded += 1) >= c.assets.length) {
-									_gthis.canvas = c;
-								}
-							};
-						})(asset));
+						if(file != null && StringTools.endsWith(file.toLowerCase(),".ttf")) {
+							iron_data_Data.getFont(file,(function(asset) {
+								return function(f) {
+									armory_ui_Canvas.assetMap.h[asset[0].id] = f;
+									if((loaded += 1) >= c.assets.length) {
+										_gthis.canvas = c;
+									}
+								};
+							})(asset));
+						} else {
+							iron_data_Data.getImage(file,(function(asset) {
+								return function(image) {
+									armory_ui_Canvas.assetMap.h[asset[0].id] = image;
+									if((loaded += 1) >= c.assets.length) {
+										_gthis.canvas = c;
+									}
+								};
+							})(asset));
+						}
 					}
 				}
 			});
@@ -2402,11 +2417,15 @@ armory_trait_internal_UniformsManager.registerShaderUniforms = function(material
 			if(texture[0].is_arm_parameter) {
 				uniformExist = true;
 				var object1 = [iron_Scene.active.root];
-				iron_data_Data.getImage(texture[0].default_image_file,(function(object,texture) {
-					return function(image) {
-						armory_trait_internal_UniformsManager.setTextureValue(material,object[0],texture[0].link,image);
-					};
-				})(object1,texture));
+				if(texture[0].default_image_file == null) {
+					armory_trait_internal_UniformsManager.setTextureValue(material,object1[0],texture[0].link,null);
+				} else {
+					iron_data_Data.getImage(texture[0].default_image_file,(function(object,texture) {
+						return function(image) {
+							armory_trait_internal_UniformsManager.setTextureValue(material,object[0],texture[0].link,image);
+						};
+					})(object1,texture));
+				}
 				armory_trait_internal_UniformsManager.register(2);
 			}
 		}
@@ -39782,6 +39801,8 @@ zui_Zui.prototype = {
 			if(selected && !this.tabVertical) {
 				this.g.set_color(this.t.WINDOW_BG_COL);
 				this.g.fillRect(this._x + this.buttonOffsetY + 1,this._y + this.buttonOffsetY + tabH,this._w - 1,1);
+				this.g.set_color(this.t.HIGHLIGHT_COL);
+				this.g.fillRect(this._x + this.buttonOffsetY + 1,this._y + this.buttonOffsetY,this._w - 1,2);
 			}
 		}
 		this._x = 0;
@@ -40021,7 +40042,7 @@ zui_Zui.prototype = {
 				this.highlightAnchor = this.cursorX;
 			}
 		}
-		if(zui_Zui.textToPaste != "") {
+		if(editable && zui_Zui.textToPaste != "") {
 			text = HxOverrides.substr(text,0,this.highlightAnchor) + zui_Zui.textToPaste + HxOverrides.substr(text,this.cursorX,null);
 			this.cursorX += zui_Zui.textToPaste.length;
 			this.highlightAnchor = this.cursorX;
@@ -40035,7 +40056,7 @@ zui_Zui.prototype = {
 		} else {
 			zui_Zui.textToCopy = text.substring(this.cursorX,this.highlightAnchor);
 		}
-		if(zui_Zui.isCut) {
+		if(editable && zui_Zui.isCut) {
 			if(this.highlightAnchor == this.cursorX) {
 				text = "";
 			} else if(this.highlightAnchor < this.cursorX) {
@@ -41005,6 +41026,7 @@ armory_renderpath_RenderPathCreator.drawMeshes = armory_renderpath_RenderPathDef
 armory_system_Event.events = new haxe_ds_StringMap();
 iron_math_Mat4.helpVec = new iron_math_Vec4();
 iron_math_Mat4.helpMat = new iron_math_Mat4(1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0);
+armory_trait_PhysicsDrag.__meta__ = { fields : { linearLowerLimit : { prop : null}, linearUpperLimit : { prop : null}, angularLowerLimit : { prop : null}, angularUpperLimit : { prop : null}}};
 armory_trait_PhysicsDrag.v = new iron_math_Vec4();
 armory_trait_PhysicsDrag.m = new iron_math_Mat4(1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0);
 armory_trait_PhysicsDrag.first = true;
@@ -41233,7 +41255,7 @@ kha_internal_HdrFormat.formatPattern = new EReg("FORMAT=32-bit_rle_rgbe","i");
 kha_internal_HdrFormat.widthHeightPattern = new EReg("-Y ([0-9]+) \\+X ([0-9]+)","i");
 kha_js_Sound.loading = [];
 kha_netsync_ControllerBuilder.nextId = 0;
-zui_Themes.dark = { NAME : "Default Dark", WINDOW_BG_COL : -13421773, WINDOW_TINT_COL : -1, ACCENT_COL : -12303292, ACCENT_HOVER_COL : -11974327, ACCENT_SELECT_COL : -10461088, BUTTON_COL : -12171706, BUTTON_TEXT_COL : -1513499, BUTTON_HOVER_COL : -11974327, BUTTON_PRESSED_COL : -15000805, TEXT_COL : -1513499, LABEL_COL : -3618616, SEPARATOR_COL : -14211289, HIGHLIGHT_COL : -14656100, CONTEXT_COL : -14540254, PANEL_BG_COL : -12895429, FONT_SIZE : 13, ELEMENT_W : 100, ELEMENT_H : 24, ELEMENT_OFFSET : 4, ARROW_SIZE : 5, BUTTON_H : 22, CHECK_SIZE : 15, CHECK_SELECT_SIZE : 8, SCROLL_W : 6, TEXT_OFFSET : 8, TAB_W : 6, FILL_WINDOW_BG : false, FILL_BUTTON_BG : true, FILL_ACCENT_BG : false, LINK_STYLE : 0, FULL_TABS : false};
+zui_Themes.dark = { NAME : "Default Dark", WINDOW_BG_COL : -14079703, WINDOW_TINT_COL : -1, ACCENT_COL : -13027015, ACCENT_HOVER_COL : -12369085, ACCENT_SELECT_COL : -11513776, BUTTON_COL : -13092808, BUTTON_TEXT_COL : -1513499, BUTTON_HOVER_COL : -11974327, BUTTON_PRESSED_COL : -15000805, TEXT_COL : -1513499, LABEL_COL : -3618616, SEPARATOR_COL : -14671840, HIGHLIGHT_COL : -14656100, CONTEXT_COL : -14540254, PANEL_BG_COL : -12895429, FONT_SIZE : 13, ELEMENT_W : 100, ELEMENT_H : 24, ELEMENT_OFFSET : 4, ARROW_SIZE : 5, BUTTON_H : 22, CHECK_SIZE : 15, CHECK_SELECT_SIZE : 8, SCROLL_W : 6, TEXT_OFFSET : 8, TAB_W : 6, FILL_WINDOW_BG : false, FILL_BUTTON_BG : true, FILL_ACCENT_BG : false, LINK_STYLE : 0, FULL_TABS : false};
 zui_Zui.alwaysRedrawWindow = true;
 zui_Zui.keyRepeat = true;
 zui_Zui.dynamicGlyphLoad = true;
