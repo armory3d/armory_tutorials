@@ -2822,6 +2822,7 @@ armory_system_Starter.main = function(scene,mode,resize,min,max,w,h,msaa,vsync,g
 	start();
 };
 var armory_trait_ArcBall = function() {
+	this.axis = new iron_math_Vec4(0,0,1);
 	iron_Trait.call(this);
 	this.notifyOnUpdate($bind(this,this.update));
 };
@@ -2835,11 +2836,9 @@ armory_trait_ArcBall.prototype = $extend(iron_Trait.prototype,{
 		}
 		var mouse = iron_system_Input.getMouse();
 		if(mouse.down()) {
-			this.object.transform.rotate(new iron_math_Vec4(0,0,1),-mouse.movementX / 100);
-			this.object.transform.buildMatrix();
+			this.object.transform.rotate(this.axis,-mouse.movementX / 100);
 			var _this = this.object.transform.world;
 			this.object.transform.rotate(new iron_math_Vec4(_this.self._00,_this.self._01,_this.self._02),-mouse.movementY / 100);
-			this.object.transform.buildMatrix();
 		}
 	}
 	,__class__: armory_trait_ArcBall
@@ -2937,11 +2936,15 @@ armory_trait_internal_UniformsManager.registerShaderUniforms = function(material
 			if(texture[0].is_arm_parameter) {
 				uniformExist = true;
 				var object1 = [iron_Scene.active.root];
-				iron_data_Data.getImage(texture[0].default_image_file,(function(object,texture) {
-					return function(image) {
-						armory_trait_internal_UniformsManager.setTextureValue(material,object[0],texture[0].link,image);
-					};
-				})(object1,texture));
+				if(texture[0].default_image_file == null) {
+					armory_trait_internal_UniformsManager.setTextureValue(material,object1[0],texture[0].link,null);
+				} else {
+					iron_data_Data.getImage(texture[0].default_image_file,(function(object,texture) {
+						return function(image) {
+							armory_trait_internal_UniformsManager.setTextureValue(material,object[0],texture[0].link,image);
+						};
+					})(object1,texture));
+				}
 				armory_trait_internal_UniformsManager.register(2);
 			}
 		}
@@ -30070,6 +30073,7 @@ armory_renderpath_NishitaData.mieScale = 1.2e3;
 armory_renderpath_RenderPathCreator.setTargetMeshes = armory_renderpath_RenderPathDeferred.setTargetMeshes;
 armory_renderpath_RenderPathCreator.drawMeshes = armory_renderpath_RenderPathDeferred.drawMeshes;
 armory_system_Event.events = new haxe_ds_StringMap();
+armory_trait_ArcBall.__meta__ = { fields : { axis : { prop : null}}};
 armory_trait_internal_UniformsManager.floatsRegistered = false;
 armory_trait_internal_UniformsManager.floatsMap = new haxe_ds_ObjectMap();
 armory_trait_internal_UniformsManager.vectorsRegistered = false;
