@@ -9,130 +9,77 @@ on:
 jobs:
   html5:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: html5
-      - name: Check export result
-        run: |
-          tree ${{ env.project }}
-          test -f ${{ env.project }}/khafile.js
-          test -f ${{ env.project }}/Sources/Main.hx
-          test -f ${{ env.project }}/build_${{ env.project }}/html5/kha.js
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-html5
-          path: ${{ env.project }}/build_${{ env.project }}/html5
+          publish: html5
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
       - name: Deploy gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
-          folder: ${{ env.project }}/build_${{ env.project }}/html5
-          target-folder: ${{ env.project }}
+          folder: ${{ github.workflow }}/build_${{ github.workflow }}/html5
+          target-folder: ${{ github.workflow }}
   krom-linux:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: krom-linux
-      - name: Check export result
-        run: |
-          tree ${{ env.project }}
-          test -f ${{ env.project }}/khafile.js
-          test -f ${{ env.project }}/Sources/Main.hx
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-krom-linux
-          path: ${{ env.project }}/build_${{ env.project }}/krom-linux
+          publish: krom-linux
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
   linux-hl:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: linux-hl
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-linux
-          path: ${{ env.project }}/build_${{ env.project }}/linux-hl
+          publish: linux-hl
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
   android-hl:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: android-hl
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-android
-          path: ${{ env.project }}/build_${{ env.project }}/android-hl
+          publish: android-hl
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
   windows-hl:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: windows-hl
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-windows
-          path: ${{ env.project }}/build_${{ env.project }}/windows-hl
+          publish: windows-hl
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
   macos-hl:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: macos-hl
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-macos
-          path: ${{ env.project }}/build_${{ env.project }}/macos-hl
+          publish: macos-hl
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
   ios-hl:
     runs-on: ubuntu-latest
-    env:
-      project: playground
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.0.32
+        uses: tong/armory_gh_actions@v0.1.9
         with:
-          blend: ${{ env.project }}/${{ env.project }}.blend
-          exporter: ios-hl
-      - name: Store artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.project }}-ios
-          path: ${{ env.project }}/build_${{ env.project }}/ios-hl
+          publish: ios-hl
+          blend: ${{ github.workflow }}/${{ github.workflow }}.blend
+          blender:  latest/stable
