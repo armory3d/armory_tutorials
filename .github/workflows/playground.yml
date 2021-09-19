@@ -12,11 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: html5
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
       - name: Deploy gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
@@ -28,58 +28,58 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: krom-linux
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
-  linux-hl:
+          blender: latest/stable
+  linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: linux-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
-  android-hl:
+          blender: latest/stable
+  android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: android-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
-  windows-hl:
+          blender: latest/stable
+  windows:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: windows-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
-  macos-hl:
+          blender: latest/stable
+  macos:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: macos-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
-  ios-hl:
+          blender: latest/stable
+  ios:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: tong/armory_gh_actions@v0.1.9
+        uses: tong/armory_gh_actions@v0.1.10
         with:
           publish: ios-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
