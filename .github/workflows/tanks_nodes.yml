@@ -32,7 +32,7 @@ jobs:
         with:
           publish: krom-linux
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
   linux:
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +42,7 @@ jobs:
         with:
           publish: linux-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
   android:
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +52,7 @@ jobs:
         with:
           publish: android-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
   windows:
     runs-on: ubuntu-latest
     steps:
@@ -62,7 +62,7 @@ jobs:
         with:
           publish: windows-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
   macos:
     runs-on: ubuntu-latest
     steps:
@@ -72,7 +72,7 @@ jobs:
         with:
           publish: macos-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable
   ios:
     runs-on: ubuntu-latest
     steps:
@@ -82,4 +82,4 @@ jobs:
         with:
           publish: ios-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: latest/stable

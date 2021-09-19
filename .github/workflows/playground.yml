@@ -18,7 +18,7 @@ jobs:
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
           blender: latest/stable
       - name: Deploy gh-pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
           folder: ${{ github.workflow }}/build_${{ github.workflow }}/html5
