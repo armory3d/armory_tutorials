@@ -361,7 +361,7 @@ arm_node_MoveCylinder.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			_Vector.outputs[i] = [];
 		}
 		var _Math_002 = new armory_logicnode_MathNode(this);
-		_Math_002.property0 = "Add";
+		_Math_002.property0 = "Multiply";
 		_Math_002.property1 = false;
 		_Math_002.inputs.length = 2;
 		_Math_002.outputs.length = 1;
@@ -372,9 +372,9 @@ arm_node_MoveCylinder.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			_Math_002.outputs[i] = [];
 		}
 		var _Math_001 = new armory_logicnode_MathNode(this);
-		_Math_001.property0 = "Add";
+		_Math_001.property0 = "Sine";
 		_Math_001.property1 = false;
-		_Math_001.inputs.length = 2;
+		_Math_001.inputs.length = 1;
 		_Math_001.outputs.length = 1;
 		var _g = 0;
 		var _g1 = _Math_001.outputs.length;
@@ -393,7 +393,6 @@ arm_node_MoveCylinder.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 		}
 		armory_logicnode_LogicNode.addLink(_GetApplicationTime_001,new armory_logicnode_FloatNode(this,0.0),1,0);
 		armory_logicnode_LogicNode.addLink(_GetApplicationTime_001,_Math_001,0,0);
-		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(this,0.5),_Math_001,0,1);
 		armory_logicnode_LogicNode.addLink(_Math_001,_Math_002,0,0);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(this,4.0),_Math_002,0,1);
 		armory_logicnode_LogicNode.addLink(_Math_002,_Vector,0,0);
