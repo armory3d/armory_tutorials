@@ -8,7 +8,7 @@ class Player1Fire extends iron.Trait {
             var keyboard = iron.system.Input.getKeyboard();
             var gamepad = iron.system.Input.getGamepad(0);
 
-            if (keyboard.started("m") || gamepad.started("cross")) {
+            if (keyboard.started("space") || gamepad.started("cross")) {
                 object.getTrait(FireTrait).fire();
             }
         });
