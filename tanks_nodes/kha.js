@@ -686,7 +686,7 @@ arm_node_Player1Fire.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 		}
 		var _Keyboard = new armory_logicnode_MergedKeyboardNode(this);
 		_Keyboard.property0 = "down";
-		_Keyboard.property1 = "f";
+		_Keyboard.property1 = "space";
 		_Keyboard.inputs.length = 0;
 		_Keyboard.outputs.length = 2;
 		var _g = 0;
@@ -969,7 +969,7 @@ arm_node_Player2Fire.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 		}
 		var _Keyboard = new armory_logicnode_MergedKeyboardNode(this);
 		_Keyboard.property0 = "down";
-		_Keyboard.property1 = "space";
+		_Keyboard.property1 = "f";
 		_Keyboard.inputs.length = 0;
 		_Keyboard.outputs.length = 2;
 		var _g = 0;
@@ -1013,30 +1013,6 @@ arm_node_TankTree.__name__ = true;
 arm_node_TankTree.__super__ = armory_logicnode_LogicTree;
 arm_node_TankTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 	add: function() {
-		var _TranslateObject = new armory_logicnode_TranslateObjectNode(this);
-		_TranslateObject.inputs.length = 4;
-		_TranslateObject.outputs.length = 1;
-		var _g = 0;
-		var _g1 = _TranslateObject.outputs.length;
-		while(_g < _g1) {
-			var i = _g++;
-			_TranslateObject.outputs[i] = [];
-		}
-		var _OnEvent = new armory_logicnode_OnEventNode(this);
-		_OnEvent.set_property0("backward");
-		_OnEvent.inputs.length = 0;
-		_OnEvent.outputs.length = 1;
-		var _g = 0;
-		var _g1 = _OnEvent.outputs.length;
-		while(_g < _g1) {
-			var i = _g++;
-			_OnEvent.outputs[i] = [];
-		}
-		armory_logicnode_LogicNode.addLink(_OnEvent,_TranslateObject,0,0);
-		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_TranslateObject,0,1);
-		armory_logicnode_LogicNode.addLink(new armory_logicnode_VectorNode(this,0.0,-0.05000000074505806,0.0),_TranslateObject,0,2);
-		armory_logicnode_LogicNode.addLink(new armory_logicnode_BooleanNode(this,true),_TranslateObject,0,3);
-		armory_logicnode_LogicNode.addLink(_TranslateObject,new armory_logicnode_NullNode(this),0,0);
 		var _TranslateObject_002 = new armory_logicnode_TranslateObjectNode(this);
 		_TranslateObject_002.inputs.length = 4;
 		_TranslateObject_002.outputs.length = 1;
@@ -1135,6 +1111,30 @@ arm_node_TankTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 		armory_logicnode_LogicNode.addLink(_Vector_002,_RotateObject_002,0,2);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_FloatNode(this,0.0),_RotateObject_002,0,3);
 		armory_logicnode_LogicNode.addLink(_RotateObject_002,new armory_logicnode_NullNode(this),0,0);
+		var _TranslateObject = new armory_logicnode_TranslateObjectNode(this);
+		_TranslateObject.inputs.length = 4;
+		_TranslateObject.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _TranslateObject.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_TranslateObject.outputs[i] = [];
+		}
+		var _OnEvent = new armory_logicnode_OnEventNode(this);
+		_OnEvent.set_property0("backward");
+		_OnEvent.inputs.length = 0;
+		_OnEvent.outputs.length = 1;
+		var _g = 0;
+		var _g1 = _OnEvent.outputs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			_OnEvent.outputs[i] = [];
+		}
+		armory_logicnode_LogicNode.addLink(_OnEvent,_TranslateObject,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_TranslateObject,0,1);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_VectorNode(this,0.0,-0.05000000074505806,0.0),_TranslateObject,0,2);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_BooleanNode(this,true),_TranslateObject,0,3);
+		armory_logicnode_LogicNode.addLink(_TranslateObject,new armory_logicnode_NullNode(this),0,0);
 	}
 	,__class__: arm_node_TankTree
 });
@@ -1216,16 +1216,9 @@ armory_logicnode_ApplyImpulseNode.prototype = $extend(armory_logicnode_LogicNode
 		} else {
 			var t = object.transform;
 			var _this = t.world;
-			var _this1 = new iron_math_Vec4(_this.self._00,_this.self._01,_this.self._02);
-			var f = impulse.x;
-			_this1.x *= f;
-			_this1.y *= f;
-			_this1.z *= f;
-			var _this = _this1;
-			var _this1 = t.world;
-			var x = _this1.self._10;
-			var y = _this1.self._11;
-			var z = _this1.self._12;
+			var x = _this.self._00;
+			var y = _this.self._01;
+			var z = _this.self._02;
 			if(z == null) {
 				z = 0.0;
 			}
@@ -1235,18 +1228,49 @@ armory_logicnode_ApplyImpulseNode.prototype = $extend(armory_logicnode_LogicNode
 			if(x == null) {
 				x = 0.0;
 			}
-			var v_x = x;
-			var v_y = y;
-			var v_z = z;
-			var v_w = 1.0;
+			var right_x = x;
+			var right_y = y;
+			var right_z = z;
+			var right_w = 1.0;
+			var n = Math.sqrt(right_x * right_x + right_y * right_y + right_z * right_z);
+			if(n > 0.0) {
+				var invN = 1.0 / n;
+				right_x *= invN;
+				right_y *= invN;
+				right_z *= invN;
+			}
+			var f = impulse.x;
+			right_x *= f;
+			right_y *= f;
+			right_z *= f;
+			var _this = t.world;
+			var x = _this.self._10;
+			var y = _this.self._11;
+			var z = _this.self._12;
+			if(z == null) {
+				z = 0.0;
+			}
+			if(y == null) {
+				y = 0.0;
+			}
+			if(x == null) {
+				x = 0.0;
+			}
+			var look_x = x;
+			var look_y = y;
+			var look_z = z;
+			var look_w = 1.0;
+			var n = Math.sqrt(look_x * look_x + look_y * look_y + look_z * look_z);
+			if(n > 0.0) {
+				var invN = 1.0 / n;
+				look_x *= invN;
+				look_y *= invN;
+				look_z *= invN;
+			}
 			var f = impulse.y;
-			v_x *= f;
-			v_y *= f;
-			v_z *= f;
-			_this.x += v_x;
-			_this.y += v_y;
-			_this.z += v_z;
-			var _this1 = _this;
+			look_x *= f;
+			look_y *= f;
+			look_z *= f;
 			var _this = t.world;
 			var x = _this.self._20;
 			var y = _this.self._21;
@@ -1260,18 +1284,34 @@ armory_logicnode_ApplyImpulseNode.prototype = $extend(armory_logicnode_LogicNode
 			if(x == null) {
 				x = 0.0;
 			}
-			var v_x = x;
-			var v_y = y;
-			var v_z = z;
-			var v_w = 1.0;
+			var up_x = x;
+			var up_y = y;
+			var up_z = z;
+			var up_w = 1.0;
+			var n = Math.sqrt(up_x * up_x + up_y * up_y + up_z * up_z);
+			if(n > 0.0) {
+				var invN = 1.0 / n;
+				up_x *= invN;
+				up_y *= invN;
+				up_z *= invN;
+			}
 			var f = impulse.z;
-			v_x *= f;
-			v_y *= f;
-			v_z *= f;
-			_this1.x += v_x;
-			_this1.y += v_y;
-			_this1.z += v_z;
-			rb.applyImpulse(_this1);
+			up_x *= f;
+			up_y *= f;
+			up_z *= f;
+			var _this = new iron_math_Vec4();
+			_this.x += right_x;
+			_this.y += right_y;
+			_this.z += right_z;
+			var _this1 = _this;
+			_this1.x += look_x;
+			_this1.y += look_y;
+			_this1.z += look_z;
+			var _this = _this1;
+			_this.x += up_x;
+			_this.y += up_y;
+			_this.z += up_z;
+			rb.applyImpulse(_this);
 		}
 		this.runOutput(0);
 	}
@@ -1755,19 +1795,17 @@ armory_logicnode_SendEventNode.prototype = $extend(armory_logicnode_LogicNode.pr
 		} else {
 			object = this.tree.object;
 		}
-		if(object == null) {
-			return;
-		}
-		var entries = armory_system_Event.get(name);
-		if(entries == null) {
-			return;
-		}
-		var _g = 0;
-		while(_g < entries.length) {
-			var e = entries[_g];
-			++_g;
-			if(e.mask == object.uid) {
-				e.onEvent();
+		if(object != null) {
+			var entries = armory_system_Event.get(name);
+			if(entries != null) {
+				var _g = 0;
+				while(_g < entries.length) {
+					var e = entries[_g];
+					++_g;
+					if(e.mask == object.uid) {
+						e.onEvent();
+					}
+				}
 			}
 		}
 		this.runOutput(0);
@@ -1904,14 +1942,21 @@ armory_logicnode_TranslateObjectNode.prototype = $extend(armory_logicnode_LogicN
 			if(x == null) {
 				x = 0.0;
 			}
-			var v_x = x;
-			var v_y = y;
-			var v_z = z;
-			var v_w = 1.0;
+			var right_x = x;
+			var right_y = y;
+			var right_z = z;
+			var right_w = 1.0;
+			var n = Math.sqrt(right_x * right_x + right_y * right_y + right_z * right_z);
+			if(n > 0.0) {
+				var invN = 1.0 / n;
+				right_x *= invN;
+				right_y *= invN;
+				right_z *= invN;
+			}
 			var f = vec.x;
-			v_x *= f;
-			v_y *= f;
-			v_z *= f;
+			right_x *= f;
+			right_y *= f;
+			right_z *= f;
 			var _this1 = t.world;
 			var x = _this1.self._10;
 			var y = _this1.self._11;
@@ -1925,17 +1970,21 @@ armory_logicnode_TranslateObjectNode.prototype = $extend(armory_logicnode_LogicN
 			if(x == null) {
 				x = 0.0;
 			}
-			var v_x1 = x;
-			var v_y1 = y;
-			var v_z1 = z;
-			var v_w = 1.0;
+			var look_x = x;
+			var look_y = y;
+			var look_z = z;
+			var look_w = 1.0;
+			var n = Math.sqrt(look_x * look_x + look_y * look_y + look_z * look_z);
+			if(n > 0.0) {
+				var invN = 1.0 / n;
+				look_x *= invN;
+				look_y *= invN;
+				look_z *= invN;
+			}
 			var f = vec.y;
-			v_x1 *= f;
-			v_y1 *= f;
-			v_z1 *= f;
-			v_x += v_x1;
-			v_y += v_y1;
-			v_z += v_z1;
+			look_x *= f;
+			look_y *= f;
+			look_z *= f;
 			var _this1 = t.world;
 			var x = _this1.self._20;
 			var y = _this1.self._21;
@@ -1949,17 +1998,34 @@ armory_logicnode_TranslateObjectNode.prototype = $extend(armory_logicnode_LogicN
 			if(x == null) {
 				x = 0.0;
 			}
-			var v_x1 = x;
-			var v_y1 = y;
-			var v_z1 = z;
-			var v_w = 1.0;
+			var up_x = x;
+			var up_y = y;
+			var up_z = z;
+			var up_w = 1.0;
+			var n = Math.sqrt(up_x * up_x + up_y * up_y + up_z * up_z);
+			if(n > 0.0) {
+				var invN = 1.0 / n;
+				up_x *= invN;
+				up_y *= invN;
+				up_z *= invN;
+			}
 			var f = vec.z;
-			v_x1 *= f;
-			v_y1 *= f;
-			v_z1 *= f;
-			v_x += v_x1;
-			v_y += v_y1;
-			v_z += v_z1;
+			up_x *= f;
+			up_y *= f;
+			up_z *= f;
+			var v_x = 0.0;
+			var v_y = 0.0;
+			var v_z = 0.0;
+			var v_w = 1.0;
+			v_x += right_x;
+			v_y += right_y;
+			v_z += right_z;
+			v_x += look_x;
+			v_y += look_y;
+			v_z += look_z;
+			v_x += up_x;
+			v_y += up_y;
+			v_z += up_z;
 			_this.x += v_x;
 			_this.y += v_y;
 			_this.z += v_z;
@@ -2013,7 +2079,12 @@ armory_object_Uniforms.register = function() {
 	iron_object_Uniforms.externalIntLinks = [];
 };
 armory_object_Uniforms.textureLink = function(object,mat,link) {
-	if(link == "_nishitaLUT") {
+	switch(link) {
+	case "_morphDataNor":
+		return (js_Boot.__cast(object , iron_object_MeshObject)).morphTarget.morphDataNor;
+	case "_morphDataPos":
+		return (js_Boot.__cast(object , iron_object_MeshObject)).morphTarget.morphDataPos;
+	case "_nishitaLUT":
 		if(armory_renderpath_Nishita.data == null) {
 			armory_renderpath_Nishita.recompute(iron_Scene.active.world);
 		}
@@ -3231,14 +3302,16 @@ armory_trait_internal_UniformsManager.removeObjectFromMap = function(object,type
 armory_trait_internal_UniformsManager.__super__ = iron_Trait;
 armory_trait_internal_UniformsManager.prototype = $extend(iron_Trait.prototype,{
 	init: function() {
-		var materials = (js_Boot.__cast(this.object , iron_object_MeshObject)).materials;
-		var _g = 0;
-		while(_g < materials.length) {
-			var material = materials[_g];
-			++_g;
-			var exists = armory_trait_internal_UniformsManager.registerShaderUniforms(material);
-			if(exists) {
-				this.uniformExists = true;
+		if(((this.object) instanceof iron_object_MeshObject)) {
+			var materials = (js_Boot.__cast(this.object , iron_object_MeshObject)).materials;
+			var _g = 0;
+			while(_g < materials.length) {
+				var material = materials[_g];
+				++_g;
+				var exists = armory_trait_internal_UniformsManager.registerShaderUniforms(material);
+				if(exists) {
+					this.uniformExists = true;
+				}
 			}
 		}
 	}
@@ -4255,16 +4328,15 @@ armory_trait_physics_bullet_PhysicsWorld.prototype = $extend(iron_Trait.prototyp
 			var body11 = contactManifold.getBody1();
 			var body12 = body1.upcast(body11);
 			var numContacts = contactManifold.getNumContacts();
-			var pt = null;
-			var posA = null;
-			var posB = null;
-			var nor = null;
-			var cp = null;
 			var _g2 = 0;
 			var _g3 = numContacts;
 			while(_g2 < _g3) {
 				var j = _g2++;
-				pt = contactManifold.getContactPoint(j);
+				var pt = contactManifold.getContactPoint(j);
+				var posA = null;
+				var posB = null;
+				var nor = null;
+				var cp = null;
 				posA = pt.get_m_positionWorldOnA();
 				posB = pt.get_m_positionWorldOnB();
 				nor = pt.get_m_normalWorldOnB();
@@ -4760,11 +4832,9 @@ armory_trait_physics_bullet_RigidBody.prototype = $extend(iron_Trait.prototype,{
 		if(this.animated) {
 			this.syncTransform();
 		} else {
-			var bodyColl = this.body;
-			var trans = bodyColl.getWorldTransform();
+			var trans = this.body.getWorldTransform();
 			var p = trans.getOrigin();
 			var q = trans.getRotation();
-			var qw = q;
 			var _this = this.transform.loc;
 			var x = p.x();
 			var y = p.y();
@@ -4774,10 +4844,10 @@ armory_trait_physics_bullet_RigidBody.prototype = $extend(iron_Trait.prototype,{
 			_this.z = z;
 			_this.w = 1.0;
 			var _this = this.transform.rot;
-			var x = qw.x();
-			var y = qw.y();
-			var z = qw.z();
-			var w = qw.w();
+			var x = q.x();
+			var y = q.y();
+			var z = q.z();
+			var w = q.w();
 			_this.x = x;
 			_this.y = y;
 			_this.z = z;
@@ -7328,7 +7398,7 @@ iron_Scene.createTraits = function(traits,object) {
 			}
 			var traitInst = iron_Scene.createTraitClassInstance(t.class_name,args);
 			if(traitInst == null) {
-				haxe_Log.trace("Error: Trait '" + t.class_name + "' referenced in object '" + object.name + "' not found",{ fileName : "Sources/iron/Scene.hx", lineNumber : 859, className : "iron.Scene", methodName : "createTraits"});
+				haxe_Log.trace("Error: Trait '" + t.class_name + "' referenced in object '" + object.name + "' not found",{ fileName : "Sources/iron/Scene.hx", lineNumber : 862, className : "iron.Scene", methodName : "createTraits"});
 				continue;
 			}
 			if(t.props != null) {
@@ -7942,6 +8012,7 @@ iron_Scene.prototype = {
 			iron_Scene.createConstraints(o.constraints,object);
 			iron_Scene.generateTransform(o,object.transform);
 			object.setupAnimation(oactions);
+			object.setupMorphTargets();
 			if(o.properties != null) {
 				object.properties = new haxe_ds_StringMap();
 				var _g = 0;
@@ -8878,10 +8949,10 @@ iron_data_Geometry.prototype = {
 			vb.unlock();
 			this.vertexBufferMap.h[key] = vb;
 			if(atex && this.uvs == null) {
-				haxe_Log.trace("Armory Warning: Geometry " + this.name + " is missing UV map",{ fileName : "Sources/iron/data/Geometry.hx", lineNumber : 237, className : "iron.data.Geometry", methodName : "get"});
+				haxe_Log.trace("Armory Warning: Geometry " + this.name + " is missing UV map",{ fileName : "Sources/iron/data/Geometry.hx", lineNumber : 234, className : "iron.data.Geometry", methodName : "get"});
 			}
 			if(acol && this.cols == null) {
-				haxe_Log.trace("Armory Warning: Geometry " + this.name + " is missing vertex colors",{ fileName : "Sources/iron/data/Geometry.hx", lineNumber : 238, className : "iron.data.Geometry", methodName : "get"});
+				haxe_Log.trace("Armory Warning: Geometry " + this.name + " is missing vertex colors",{ fileName : "Sources/iron/data/Geometry.hx", lineNumber : 235, className : "iron.data.Geometry", methodName : "get"});
 			}
 		}
 		return vb;
@@ -10180,11 +10251,13 @@ iron_object_Animation.prototype = {
 				var i = _g++;
 				if(this.frameIndex == anim.marker_frames.getUint32(i * 4,kha_arrays_ByteArray.LITTLE_ENDIAN)) {
 					var ar = this.markerEvents.h[anim.marker_names[i]];
-					var _g2 = 0;
-					while(_g2 < ar.length) {
-						var f = ar[_g2];
-						++_g2;
-						f();
+					if(ar != null) {
+						var _g2 = 0;
+						while(_g2 < ar.length) {
+							var f = ar[_g2];
+							++_g2;
+							f();
+						}
 					}
 				}
 			}
@@ -12300,6 +12373,8 @@ iron_object_Object.prototype = {
 		}
 		this.animation = new iron_object_ObjectAnimation(this,oactions);
 	}
+	,setupMorphTargets: function() {
+	}
 	,__class__: iron_object_Object
 };
 var iron_object_CameraObject = function(data) {
@@ -13752,6 +13827,7 @@ iron_object_LightObject.prototype = $extend(iron_object_Object.prototype,{
 	,__class__: iron_object_LightObject
 });
 var iron_object_MeshObject = function(data,materials) {
+	this.morphTarget = null;
 	this.force_context = null;
 	this.skip_context = null;
 	this.tilesheet = null;
@@ -13821,6 +13897,11 @@ iron_object_MeshObject.prototype = $extend(iron_object_Object.prototype,{
 			}
 		}
 		iron_object_Object.prototype.setupAnimation.call(this,oactions);
+	}
+	,setupMorphTargets: function() {
+		if(this.data.raw.morph_target != null) {
+			this.morphTarget = new iron_object_MorphTarget(this.data.raw.morph_target);
+		}
 	}
 	,setupParticleSystem: function(sceneName,pref) {
 		if(this.particleSystems == null) {
@@ -14076,6 +14157,44 @@ iron_object_MeshObject.prototype = $extend(iron_object_Object.prototype,{
 	}
 	,__class__: iron_object_MeshObject
 });
+var iron_object_MorphTarget = function(data) {
+	this.morphMap = null;
+	this.morphBlockSize = 0;
+	this.morphImageSize = 0;
+	this.numMorphTargets = 0;
+	var _gthis = this;
+	this.morphWeights = data.morph_target_defaults;
+	this.scaling = data.morph_scale;
+	this.offset = data.morph_offset;
+	this.numMorphTargets = data.num_morph_targets;
+	this.morphImageSize = data.morph_img_size;
+	this.morphBlockSize = data.morph_block_size;
+	iron_data_Data.getImage(data.morph_target_data_file + "_morph_pos.png",function(img) {
+		if(img != null) {
+			_gthis.morphDataPos = img;
+		}
+	});
+	iron_data_Data.getImage(data.morph_target_data_file + "_morph_nor.png",function(img) {
+		if(img != null) {
+			_gthis.morphDataNor = img;
+		}
+	});
+	this.morphMap = new haxe_ds_StringMap();
+	var i = 0;
+	var _g = 0;
+	var _g1 = data.morph_target_ref;
+	while(_g < _g1.length) {
+		var name = _g1[_g];
+		++_g;
+		this.morphMap.h[name] = i;
+		++i;
+	}
+};
+$hxClasses["iron.object.MorphTarget"] = iron_object_MorphTarget;
+iron_object_MorphTarget.__name__ = true;
+iron_object_MorphTarget.prototype = {
+	__class__: iron_object_MorphTarget
+};
 var iron_object_ObjectAnimation = function(object,oactions) {
 	this.object = object;
 	this.oactions = oactions;
@@ -18640,10 +18759,22 @@ iron_object_Uniforms.setObjectConstant = function(g,object,location,c) {
 	} else if(c.type == "vec2") {
 		var vx = null;
 		var vy = null;
-		if(c.link == "_tilesheetOffset") {
+		switch(c.link) {
+		case "_morphDataDim":
+			var mt = (js_Boot.__cast(object , iron_object_MeshObject)).morphTarget;
+			vx = mt.numMorphTargets;
+			vy = mt.morphBlockSize / mt.morphImageSize;
+			break;
+		case "_morphScaleOffset":
+			var mt = (js_Boot.__cast(object , iron_object_MeshObject)).morphTarget;
+			vx = mt.scaling;
+			vy = mt.offset;
+			break;
+		case "_tilesheetOffset":
 			var ts = (js_Boot.__cast(object , iron_object_MeshObject)).tilesheet;
 			vx = ts.tileX;
 			vy = ts.tileY;
+			break;
 		}
 		if(vx == null && iron_object_Uniforms.externalVec2Links != null) {
 			var _g = 0;
@@ -18701,10 +18832,15 @@ iron_object_Uniforms.setObjectConstant = function(g,object,location,c) {
 		g.setFloat(location,f);
 	} else if(c.type == "floats") {
 		var fa = null;
-		if(c.link == "_skinBones") {
+		switch(c.link) {
+		case "_morphWeights":
+			fa = (js_Boot.__cast(object , iron_object_MeshObject)).morphTarget.morphWeights;
+			break;
+		case "_skinBones":
 			if(object.animation != null) {
 				fa = (js_Boot.__cast(object.animation , iron_object_BoneAnimation)).skinBuffer;
 			}
+			break;
 		}
 		if(fa == null && iron_object_Uniforms.externalFloatsLinks != null) {
 			var _g = 0;
