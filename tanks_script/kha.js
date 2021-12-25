@@ -389,7 +389,7 @@ var arm_Player1Fire = function() {
 	this.notifyOnUpdate(function() {
 		var keyboard = iron_system_Input.getKeyboard();
 		var gamepad = iron_system_Input.getGamepad(0);
-		if(keyboard.started("m") || gamepad.started("cross")) {
+		if(keyboard.started("space") || gamepad.started("cross")) {
 			_gthis.object.getTrait(arm_FireTrait).fire();
 		}
 	});
