@@ -1,5 +1,8 @@
 name: tanks_nodes
 
+env:
+  BLENDER_VERSION: 2.93lts/stable
+
 on:
   push:
     paths:
@@ -16,7 +19,7 @@ jobs:
         with:
           publish: html5
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender:  latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
       - name: Deploy gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
@@ -32,7 +35,7 @@ jobs:
         with:
           publish: krom-linux
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender: latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
   linux:
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +45,7 @@ jobs:
         with:
           publish: linux-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender: latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
   android:
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +55,7 @@ jobs:
         with:
           publish: android-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender: latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
   windows:
     runs-on: ubuntu-latest
     steps:
@@ -62,7 +65,7 @@ jobs:
         with:
           publish: windows-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender: latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
   macos:
     runs-on: ubuntu-latest
     steps:
@@ -72,7 +75,7 @@ jobs:
         with:
           publish: macos-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender: latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
   ios:
     runs-on: ubuntu-latest
     steps:
@@ -82,4 +85,4 @@ jobs:
         with:
           publish: ios-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
-          blender: latest/stable
+          blender: ${{ env.BLENDER_VERSION }}
