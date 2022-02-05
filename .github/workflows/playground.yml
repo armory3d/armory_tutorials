@@ -15,13 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: html5
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
           blender: ${{ env.BLENDER_VERSION }}
       - name: Deploy gh-pages
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
           folder: ${{ github.workflow }}/build_${{ github.workflow }}/html5
@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: krom-linux
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: linux-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: android-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: windows-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: macos-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: armory3d/armory_gh_actions@v0.1.10
+        uses: armory3d/armory_gh_actions@v0.1.12
         with:
           publish: ios-hl
           blend: ${{ github.workflow }}/${{ github.workflow }}.blend
