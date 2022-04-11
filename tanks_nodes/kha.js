@@ -187,6 +187,13 @@ Std.parseInt = function(x) {
 	}
 	return null;
 };
+Std.random = function(x) {
+	if(x <= 0) {
+		return 0;
+	} else {
+		return Math.floor(Math.random() * x);
+	}
+};
 var StringTools = function() { };
 $hxClasses["StringTools"] = StringTools;
 StringTools.__name__ = true;
@@ -374,17 +381,18 @@ arm_node_FireTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			var i = _g++;
 			_SpawnObject_001.outputs[i] = [];
 		}
-		var _OnEvent_001 = new armory_logicnode_OnEventNode(this);
-		_OnEvent_001.set_property0("fire");
-		_OnEvent_001.inputs.length = 0;
-		_OnEvent_001.outputs.length = 1;
+		var _OnEvent = new armory_logicnode_OnEventNode(this);
+		_OnEvent.property1 = "init";
+		_OnEvent.inputs.length = 1;
+		_OnEvent.outputs.length = 1;
 		var _g = 0;
-		var _g1 = _OnEvent_001.outputs.length;
+		var _g1 = _OnEvent.outputs.length;
 		while(_g < _g1) {
 			var i = _g++;
-			_OnEvent_001.outputs[i] = [];
+			_OnEvent.outputs[i] = [];
 		}
-		armory_logicnode_LogicNode.addLink(_OnEvent_001,_SpawnObject_001,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_StringNode(this,"fire"),_OnEvent,0,0);
+		armory_logicnode_LogicNode.addLink(_OnEvent,_SpawnObject_001,0,0);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,"Bullet"),_SpawnObject_001,0,1);
 		var _GetObjectTransform_001 = new armory_logicnode_GetTransformNode(this);
 		_GetObjectTransform_001.inputs.length = 1;
@@ -1022,17 +1030,18 @@ arm_node_TankTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			var i = _g++;
 			_TranslateObject.outputs[i] = [];
 		}
-		var _OnEvent = new armory_logicnode_OnEventNode(this);
-		_OnEvent.set_property0("backward");
-		_OnEvent.inputs.length = 0;
-		_OnEvent.outputs.length = 1;
+		var _OnEvent_001 = new armory_logicnode_OnEventNode(this);
+		_OnEvent_001.property1 = "init";
+		_OnEvent_001.inputs.length = 1;
+		_OnEvent_001.outputs.length = 1;
 		var _g = 0;
-		var _g1 = _OnEvent.outputs.length;
+		var _g1 = _OnEvent_001.outputs.length;
 		while(_g < _g1) {
 			var i = _g++;
-			_OnEvent.outputs[i] = [];
+			_OnEvent_001.outputs[i] = [];
 		}
-		armory_logicnode_LogicNode.addLink(_OnEvent,_TranslateObject,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_StringNode(this,"backward"),_OnEvent_001,0,0);
+		armory_logicnode_LogicNode.addLink(_OnEvent_001,_TranslateObject,0,0);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_TranslateObject,0,1);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_VectorNode(this,0.0,-0.05000000074505806,0.0),_TranslateObject,0,2);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_BooleanNode(this,true),_TranslateObject,0,3);
@@ -1046,17 +1055,18 @@ arm_node_TankTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			var i = _g++;
 			_TranslateObject_002.outputs[i] = [];
 		}
-		var _OnEvent_001 = new armory_logicnode_OnEventNode(this);
-		_OnEvent_001.set_property0("forward");
-		_OnEvent_001.inputs.length = 0;
-		_OnEvent_001.outputs.length = 1;
+		var _OnEvent_003 = new armory_logicnode_OnEventNode(this);
+		_OnEvent_003.property1 = "init";
+		_OnEvent_003.inputs.length = 1;
+		_OnEvent_003.outputs.length = 1;
 		var _g = 0;
-		var _g1 = _OnEvent_001.outputs.length;
+		var _g1 = _OnEvent_003.outputs.length;
 		while(_g < _g1) {
 			var i = _g++;
-			_OnEvent_001.outputs[i] = [];
+			_OnEvent_003.outputs[i] = [];
 		}
-		armory_logicnode_LogicNode.addLink(_OnEvent_001,_TranslateObject_002,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_StringNode(this,"forward"),_OnEvent_003,0,0);
+		armory_logicnode_LogicNode.addLink(_OnEvent_003,_TranslateObject_002,0,0);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_TranslateObject_002,0,1);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_VectorNode(this,0.0,0.05000000074505806,0.0),_TranslateObject_002,0,2);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_BooleanNode(this,true),_TranslateObject_002,0,3);
@@ -1071,17 +1081,18 @@ arm_node_TankTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			var i = _g++;
 			_RotateObject.outputs[i] = [];
 		}
-		var _OnEvent_004 = new armory_logicnode_OnEventNode(this);
-		_OnEvent_004.set_property0("turn_left");
-		_OnEvent_004.inputs.length = 0;
-		_OnEvent_004.outputs.length = 1;
+		var _OnEvent = new armory_logicnode_OnEventNode(this);
+		_OnEvent.property1 = "init";
+		_OnEvent.inputs.length = 1;
+		_OnEvent.outputs.length = 1;
 		var _g = 0;
-		var _g1 = _OnEvent_004.outputs.length;
+		var _g1 = _OnEvent.outputs.length;
 		while(_g < _g1) {
 			var i = _g++;
-			_OnEvent_004.outputs[i] = [];
+			_OnEvent.outputs[i] = [];
 		}
-		armory_logicnode_LogicNode.addLink(_OnEvent_004,_RotateObject,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_StringNode(this,"turn_left"),_OnEvent,0,0);
+		armory_logicnode_LogicNode.addLink(_OnEvent,_RotateObject,0,0);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_RotateObject,0,1);
 		var _Rotation = new armory_logicnode_RotationNode(this);
 		_Rotation.property0 = "EulerAngles";
@@ -1121,17 +1132,18 @@ arm_node_TankTree.prototype = $extend(armory_logicnode_LogicTree.prototype,{
 			var i = _g++;
 			_RotateObject_003.outputs[i] = [];
 		}
-		var _OnEvent_002 = new armory_logicnode_OnEventNode(this);
-		_OnEvent_002.set_property0("turn_right");
-		_OnEvent_002.inputs.length = 0;
-		_OnEvent_002.outputs.length = 1;
+		var _OnEvent_004 = new armory_logicnode_OnEventNode(this);
+		_OnEvent_004.property1 = "init";
+		_OnEvent_004.inputs.length = 1;
+		_OnEvent_004.outputs.length = 1;
 		var _g = 0;
-		var _g1 = _OnEvent_002.outputs.length;
+		var _g1 = _OnEvent_004.outputs.length;
 		while(_g < _g1) {
 			var i = _g++;
-			_OnEvent_002.outputs[i] = [];
+			_OnEvent_004.outputs[i] = [];
 		}
-		armory_logicnode_LogicNode.addLink(_OnEvent_002,_RotateObject_003,0,0);
+		armory_logicnode_LogicNode.addLink(new armory_logicnode_StringNode(this,"turn_right"),_OnEvent_004,0,0);
+		armory_logicnode_LogicNode.addLink(_OnEvent_004,_RotateObject_003,0,0);
 		armory_logicnode_LogicNode.addLink(new armory_logicnode_ObjectNode(this,""),_RotateObject_003,0,1);
 		var _Rotation_001 = new armory_logicnode_RotationNode(this);
 		_Rotation_001.property0 = "EulerAngles";
@@ -1694,15 +1706,45 @@ armory_logicnode_ObjectNode.prototype = $extend(armory_logicnode_LogicNode.proto
 var armory_logicnode_OnEventNode = function(tree) {
 	this.listener = null;
 	armory_logicnode_LogicNode.call(this,tree);
+	tree.notifyOnInit($bind(this,this.init_main));
 	tree.notifyOnRemove($bind(this,this.onRemove));
 };
 $hxClasses["armory.logicnode.OnEventNode"] = armory_logicnode_OnEventNode;
 armory_logicnode_OnEventNode.__name__ = true;
 armory_logicnode_OnEventNode.__super__ = armory_logicnode_LogicNode;
 armory_logicnode_OnEventNode.prototype = $extend(armory_logicnode_LogicNode.prototype,{
-	set_property0: function(s) {
-		this.listener = armory_system_Event.add(s,$bind(this,this.onEvent),this.tree.object.uid);
-		return this._property0 = s;
+	init_main: function() {
+		switch(this.property1) {
+		case "init":
+			this.tree.notifyOnInit($bind(this,this.init));
+			break;
+		case "update":
+			this.tree.notifyOnUpdate($bind(this,this.update));
+			break;
+		}
+	}
+	,init: function() {
+		var _this = this.inputs[0];
+		this.value = _this.fromNode.get(_this.fromIndex);
+		this.listener = armory_system_Event.add(this.value,$bind(this,this.onEvent),this.tree.object.uid);
+	}
+	,update: function() {
+		var _this = this.inputs[0];
+		this.value = _this.fromNode.get(_this.fromIndex);
+		if(this.value != this.oldValue) {
+			this.onRemove();
+			this.listener = armory_system_Event.add(this.value,$bind(this,this.onEvent),this.tree.object.uid);
+			this.oldValue = this.value;
+		}
+	}
+	,run: function(from) {
+		var _this = this.inputs[1];
+		this.value = _this.fromNode.get(_this.fromIndex);
+		if(this.value != this.oldValue) {
+			this.onRemove();
+			this.listener = armory_system_Event.add(this.value,$bind(this,this.onEvent),this.tree.object.uid);
+			this.oldValue = this.value;
+		}
 	}
 	,onEvent: function() {
 		this.runOutput(0);
@@ -1713,7 +1755,6 @@ armory_logicnode_OnEventNode.prototype = $extend(armory_logicnode_LogicNode.prot
 		}
 	}
 	,__class__: armory_logicnode_OnEventNode
-	,__properties__: {set_property0:"set_property0"}
 });
 var armory_logicnode_RemoveObjectNode = function(tree) {
 	armory_logicnode_LogicNode.call(this,tree);
@@ -3321,7 +3362,7 @@ armory_system_Starter.main = function(scene,mode,resize,min,max,w,h,msaa,vsync,g
 	var loadLibAmmo = function(name) {
 		kha_Assets.loadBlobFromPath(name,function(b) {
 			(1,eval)(b.toString());
-			Ammo({print:function(s){haxe.Log.trace(s);}}).then(function(){ tasks--; start();});
+			Ammo({print:function(s){iron.log(s);}}).then(function(){ tasks--; start();});
 		},null,{ fileName : "Sources/armory/system/Starter.hx", lineNumber : 78, className : "armory.system.Starter", methodName : "main"});
 	};
 	tasks = 1;
@@ -14787,41 +14828,137 @@ iron_object_ParticleSystem.prototype = {
 	,setupGeomGpu: function(object,owner) {
 		var instancedData = kha_arrays_Float32Array._new(this.particles.length * 3);
 		var i = 0;
-		if(this.r.emit_from == 0) {
+		var scaleFactorVol = owner.data.scalePos / this.r.particle_size;
+		var scaleFactorVertFace = 3.05185094759971923e-05 * scaleFactorVol;
+		switch(this.r.emit_from) {
+		case 0:
 			var pa = owner.data.geom.positions;
-			var sc = owner.data.scalePos;
 			var _g = 0;
 			var _g1 = this.particles;
 			while(_g < _g1.length) {
 				var p = _g1[_g];
 				++_g;
 				var j = this.fhash(i) * ((pa.values.byteLength >> 1) / pa.size) | 0;
-				var v = pa.values.getInt16(j * pa.size * 2,kha_arrays_ByteArray.LITTLE_ENDIAN) / 32767 * sc / this.r.particle_size;
+				var v = pa.values.getInt16(j * pa.size * 2,kha_arrays_ByteArray.LITTLE_ENDIAN) * scaleFactorVertFace;
 				instancedData.setFloat32(i * 4,v,true);
 				++i;
-				var v1 = pa.values.getInt16((j * pa.size + 1) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN) / 32767 * sc / this.r.particle_size;
+				var v1 = pa.values.getInt16((j * pa.size + 1) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN) * scaleFactorVertFace;
 				instancedData.setFloat32(i * 4,v1,true);
 				++i;
-				var v2 = pa.values.getInt16((j * pa.size + 2) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN) / 32767 * sc / this.r.particle_size;
+				var v2 = pa.values.getInt16((j * pa.size + 2) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN) * scaleFactorVertFace;
 				instancedData.setFloat32(i * 4,v2,true);
 				++i;
 			}
-		} else {
+			break;
+		case 1:
+			var positions = owner.data.geom.positions.values;
 			var _g = 0;
 			var _g1 = this.particles;
 			while(_g < _g1.length) {
 				var p = _g1[_g];
 				++_g;
-				var v = (Math.random() * 2.0 - 1.0) * (object.transform.dim.x / 2.0);
+				var ia = owner.data.geom.indices[Std.random(owner.data.geom.indices.length)];
+				var faceIndex = Std.random((ia.byteLength >> 2) / 3 | 0);
+				var i0 = ia.getUint32(faceIndex * 3 * 4,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var i1 = ia.getUint32((faceIndex * 3 + 1) * 4,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var i2 = ia.getUint32((faceIndex * 3 + 2) * 4,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var x = positions.getInt16(i0 * 4 * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var y = positions.getInt16((i0 * 4 + 1) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var z = positions.getInt16((i0 * 4 + 2) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				if(z == null) {
+					z = 0.0;
+				}
+				if(y == null) {
+					y = 0.0;
+				}
+				if(x == null) {
+					x = 0.0;
+				}
+				var pos_x = x;
+				var pos_y = y;
+				var pos_z = z;
+				var x1 = positions.getInt16(i1 * 4 * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var y1 = positions.getInt16((i1 * 4 + 1) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var z1 = positions.getInt16((i1 * 4 + 2) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				if(z1 == null) {
+					z1 = 0.0;
+				}
+				if(y1 == null) {
+					y1 = 0.0;
+				}
+				if(x1 == null) {
+					x1 = 0.0;
+				}
+				var v_x = x1;
+				var v_y = y1;
+				var v_z = z1;
+				var x2 = positions.getInt16(i2 * 4 * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var y2 = positions.getInt16((i2 * 4 + 1) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				var z2 = positions.getInt16((i2 * 4 + 2) * 2,kha_arrays_ByteArray.LITTLE_ENDIAN);
+				if(z2 == null) {
+					z2 = 0.0;
+				}
+				if(y2 == null) {
+					y2 = 0.0;
+				}
+				if(x2 == null) {
+					x2 = 0.0;
+				}
+				var v_x1 = x2;
+				var v_y1 = y2;
+				var v_z1 = z2;
+				var x3 = Math.random();
+				var y3 = Math.random();
+				if(x3 + y3 > 1) {
+					x3 = 1 - x3;
+					y3 = 1 - y3;
+				}
+				v_x -= pos_x;
+				v_y -= pos_y;
+				v_z -= pos_z;
+				v_x1 -= pos_x;
+				v_y1 -= pos_y;
+				v_z1 -= pos_z;
+				v_x *= x3;
+				v_y *= x3;
+				v_z *= x3;
+				v_x1 *= y3;
+				v_y1 *= y3;
+				v_z1 *= y3;
+				v_x += v_x1;
+				v_y += v_y1;
+				v_z += v_z1;
+				pos_x += v_x;
+				pos_y += v_y;
+				pos_z += v_z;
+				var v = pos_x * scaleFactorVertFace;
 				instancedData.setFloat32(i * 4,v,true);
 				++i;
-				var v1 = (Math.random() * 2.0 - 1.0) * (object.transform.dim.y / 2.0);
+				var v1 = pos_y * scaleFactorVertFace;
 				instancedData.setFloat32(i * 4,v1,true);
 				++i;
-				var v2 = (Math.random() * 2.0 - 1.0) * (object.transform.dim.z / 2.0);
+				var v2 = pos_z * scaleFactorVertFace;
 				instancedData.setFloat32(i * 4,v2,true);
 				++i;
 			}
+			break;
+		case 2:
+			var _g = 0;
+			var _g1 = this.particles;
+			while(_g < _g1.length) {
+				var p = _g1[_g];
+				++_g;
+				var v = (Math.random() * 2.0 - 1.0) * (object.transform.dim.x / 2.0) * scaleFactorVol;
+				instancedData.setFloat32(i * 4,v,true);
+				++i;
+				var v1 = (Math.random() * 2.0 - 1.0) * (object.transform.dim.y / 2.0) * scaleFactorVol;
+				instancedData.setFloat32(i * 4,v1,true);
+				++i;
+				var v2 = (Math.random() * 2.0 - 1.0) * (object.transform.dim.z / 2.0) * scaleFactorVol;
+				instancedData.setFloat32(i * 4,v2,true);
+				++i;
+			}
+			break;
 		}
 		object.data.geom.setupInstanced(instancedData,1,0);
 	}
