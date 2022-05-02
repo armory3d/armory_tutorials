@@ -1887,6 +1887,17 @@ armory_renderpath_RenderPathDeferred.commands = function() {
 	armory_renderpath_RenderPathDeferred.path.bindTarget("bufb","blendTex");
 	armory_renderpath_RenderPathDeferred.path.drawShader("shader_datas/smaa_neighborhood_blend/smaa_neighborhood_blend");
 };
+armory_renderpath_RenderPathDeferred.setupDepthTexture = function() {
+	armory_renderpath_RenderPathDeferred.path.setDepthFrom("gbuffer0","gbuffer1");
+	armory_renderpath_RenderPathDeferred.path.depthToRenderTarget.h["main"] = armory_renderpath_RenderPathDeferred.path.renderTargets.h["tex"];
+	armory_renderpath_RenderPathDeferred.path.setTarget("depthtex");
+	armory_renderpath_RenderPathDeferred.path.bindTarget("_main","tex");
+	armory_renderpath_RenderPathDeferred.path.drawShader("shader_datas/copy_pass/copy_pass");
+	armory_renderpath_RenderPathDeferred.path.setDepthFrom("gbuffer0","tex");
+	armory_renderpath_RenderPathDeferred.path.depthToRenderTarget.h["main"] = armory_renderpath_RenderPathDeferred.path.renderTargets.h["gbuffer0"];
+	armory_renderpath_RenderPathDeferred.setTargetMeshes();
+	armory_renderpath_RenderPathDeferred.path.bindTarget("depthtex","depthtex");
+};
 var armory_renderpath_RenderPathCreator = function() { };
 $hxClasses["armory.renderpath.RenderPathCreator"] = armory_renderpath_RenderPathCreator;
 armory_renderpath_RenderPathCreator.__name__ = true;
@@ -1900,6 +1911,7 @@ armory_renderpath_RenderPathCreator.get = function() {
 		armory_renderpath_RenderPathDeferred.commands();
 		armory_renderpath_RenderPathCreator.commands();
 	};
+	armory_renderpath_RenderPathCreator.path.setupDepthTexture = armory_renderpath_RenderPathDeferred.setupDepthTexture;
 	return armory_renderpath_RenderPathCreator.path;
 };
 var haxe_Exception = function(message,previous,native) {
@@ -6555,6 +6567,7 @@ var iron_RenderPath = function() {
 	this.lastW = 0;
 	this.depthToRenderTarget = new haxe_ds_StringMap();
 	this.renderTargets = new haxe_ds_StringMap();
+	this.setupDepthTexture = null;
 	this.commands = null;
 	this.paused = false;
 	this.drawOrder = 0;
@@ -6841,11 +6854,13 @@ iron_RenderPath.prototype = {
 			}
 			this.meshesSorted = true;
 		}
+		var g = this.currentG;
+		var _bindParams = this.bindParams;
 		var _g = 0;
 		while(_g < meshes.length) {
 			var m = meshes[_g];
 			++_g;
-			m.render(this.currentG,context,this.bindParams);
+			m.render(g,context,_bindParams);
 		}
 	}
 	,drawSkydome: function(handle) {
@@ -18010,6 +18025,30 @@ iron_object_Uniforms.setObjectConstant = function(g,object,location,c) {
 			var mo = js_Boot.__cast(object , iron_object_MeshObject);
 			if(mo.particleOwner != null && mo.particleOwner.particleSystems != null) {
 				m = mo.particleOwner.particleSystems[mo.particleIndex].getData();
+			}
+			break;
+		case "_sunWorldMatrix":
+			var sun = iron_RenderPath.active.sun;
+			if(sun != null) {
+				var _this = iron_object_Uniforms.helpMat;
+				var m1 = sun.transform.worldUnpack;
+				_this.self._00 = m1.self._00;
+				_this.self._01 = m1.self._01;
+				_this.self._02 = m1.self._02;
+				_this.self._03 = m1.self._03;
+				_this.self._10 = m1.self._10;
+				_this.self._11 = m1.self._11;
+				_this.self._12 = m1.self._12;
+				_this.self._13 = m1.self._13;
+				_this.self._20 = m1.self._20;
+				_this.self._21 = m1.self._21;
+				_this.self._22 = m1.self._22;
+				_this.self._23 = m1.self._23;
+				_this.self._30 = m1.self._30;
+				_this.self._31 = m1.self._31;
+				_this.self._32 = m1.self._32;
+				_this.self._33 = m1.self._33;
+				m = iron_object_Uniforms.helpMat;
 			}
 			break;
 		case "_worldMatrix":
@@ -40057,8 +40096,10 @@ var zui_Zui = function(ops) {
 	this.tooltipImgMaxWidth = null;
 	this.tooltipImg = null;
 	this.tooltipText = "";
+	this.comboInitialValue = 0;
 	this.comboToSubmit = 0;
 	this.submitComboHandle = null;
+	this.comboSearchBar = false;
 	this.comboSelectedWindow = null;
 	this.comboSelectedHandle = null;
 	this.tabPressedHandle = null;
@@ -40626,13 +40667,16 @@ zui_Zui.prototype = {
 		}
 	}
 	,submitTextEdit: function() {
+		this.submitTextHandle.changed = this.submitTextHandle.text != this.textToSubmit;
 		this.submitTextHandle.text = this.textToSubmit;
-		this.submitTextHandle.changed = this.changed = true;
 		this.submitTextHandle = null;
 		this.textToSubmit = "";
 		this.textSelected = "";
 	}
-	,updateTextEdit: function(align,editable) {
+	,updateTextEdit: function(align,editable,liveUpdate) {
+		if(liveUpdate == null) {
+			liveUpdate = false;
+		}
 		if(editable == null) {
 			editable = true;
 		}
@@ -40746,8 +40790,15 @@ zui_Zui.prototype = {
 			this.g.fillRect(cursorX,this._y + this.buttonOffsetY * 1.5,this.ops.scaleFactor,cursorHeight);
 		}
 		this.textSelected = text;
+		if(liveUpdate && this.textSelectedHandle != null) {
+			this.textSelectedHandle.changed = this.textSelectedHandle.text != this.textSelected;
+			this.textSelectedHandle.text = this.textSelected;
+		}
 	}
-	,textInput: function(handle,label,align,editable) {
+	,textInput: function(handle,label,align,editable,liveUpdate) {
+		if(liveUpdate == null) {
+			liveUpdate = false;
+		}
 		if(editable == null) {
 			editable = true;
 		}
@@ -40791,16 +40842,15 @@ zui_Zui.prototype = {
 			this.setCursorToInput(align);
 		}
 		var startEdit = released || this.tabPressed;
+		handle.changed = false;
 		if(this.textSelectedHandle != handle && startEdit) {
 			this.startTextEdit(handle,align);
 		}
 		if(this.textSelectedHandle == handle) {
-			this.updateTextEdit(align,editable);
+			this.updateTextEdit(align,editable,liveUpdate);
 		}
 		if(this.submitTextHandle == handle) {
 			this.submitTextEdit();
-		} else {
-			handle.changed = false;
 		}
 		if(label != "") {
 			this.g.set_color(this.t.LABEL_COL);
@@ -40884,7 +40934,10 @@ zui_Zui.prototype = {
 		this.endElement();
 		return released;
 	}
-	,check: function(handle,text) {
+	,check: function(handle,text,label) {
+		if(label == null) {
+			label = "";
+		}
 		if(!this.isVisible(this.t.ELEMENT_H * this.ops.scaleFactor)) {
 			this.endElement();
 			return handle.selected;
@@ -40899,10 +40952,17 @@ zui_Zui.prototype = {
 		this.drawCheck(handle.selected,hover);
 		this.g.set_color(this.t.TEXT_COL);
 		this.drawString(this.g,text,this.titleOffsetX,0,0);
+		if(label != "") {
+			this.g.set_color(this.t.LABEL_COL);
+			this.drawString(this.g,label,null,0,2);
+		}
 		this.endElement();
 		return handle.selected;
 	}
-	,combo: function(handle,texts,label,showLabel,align) {
+	,combo: function(handle,texts,label,showLabel,align,searchBar) {
+		if(searchBar == null) {
+			searchBar = true;
+		}
 		if(align == null) {
 			align = 0;
 		}
@@ -40927,6 +40987,7 @@ zui_Zui.prototype = {
 				this.comboSelectedX = this._x + this._windowX | 0;
 				this.comboSelectedY = this._y + this._windowY + this.t.ELEMENT_H * this.ops.scaleFactor | 0;
 				this.comboSelectedW = this._w | 0;
+				this.comboSearchBar = searchBar;
 				var _g = 0;
 				while(_g < texts.length) {
 					var t = texts[_g];
@@ -40943,9 +41004,14 @@ zui_Zui.prototype = {
 					this.comboSelectedW += this.t.TEXT_OFFSET * this.ops.scaleFactor | 0;
 				}
 				this.comboToSubmit = handle.position;
+				this.comboInitialValue = handle.position;
 			}
 		}
-		if(handle == this.submitComboHandle) {
+		if(handle == this.comboSelectedHandle && (this.isEscapeDown || this.inputReleasedR)) {
+			handle.position = this.comboInitialValue;
+			handle.changed = this.changed = true;
+			this.submitComboHandle = null;
+		} else if(handle == this.submitComboHandle) {
 			handle.position = this.comboToSubmit;
 			this.submitComboHandle = null;
 			handle.changed = this.changed = true;
@@ -41185,7 +41251,7 @@ zui_Zui.prototype = {
 		var _g = this.g;
 		this.globalG.set_color(this.t.SEPARATOR_COL);
 		this.globalG.begin(false);
-		var comboH = (this.comboSelectedTexts.length + (this.comboSelectedLabel != "" ? 1 : 0)) * (this.t.ELEMENT_H * this.ops.scaleFactor | 0);
+		var comboH = (this.comboSelectedTexts.length + (this.comboSelectedLabel != "" ? 1 : 0) + (this.comboSearchBar ? 1 : 0)) * (this.t.ELEMENT_H * this.ops.scaleFactor | 0);
 		var distTop = this.comboSelectedY - comboH - (this.t.ELEMENT_H * this.ops.scaleFactor | 0) - this.windowBorderTop;
 		var distBottom = kha_System.windowHeight() - this.windowBorderBottom - (this.comboSelectedY + comboH);
 		var unrollUp = distBottom < 0 && distBottom < distTop;
@@ -41196,10 +41262,26 @@ zui_Zui.prototype = {
 			var wheelUp = unrollUp && this.inputWheelDelta > 0 || !unrollUp && this.inputWheelDelta < 0;
 			var wheelDown = unrollUp && this.inputWheelDelta < 0 || !unrollUp && this.inputWheelDelta > 0;
 			if((arrowUp || wheelUp) && this.comboToSubmit > 0) {
-				this.comboToSubmit--;
+				var step = 1;
+				if(this.comboSearchBar && this.textSelected.length > 0) {
+					var search = this.textSelected.toLowerCase();
+					while(this.comboSelectedTexts[this.comboToSubmit - step].toLowerCase().indexOf(search) < 0 && this.comboToSubmit - step > 0) ++step;
+					if(this.comboSelectedTexts[this.comboToSubmit - step].toLowerCase().indexOf(search) < 0) {
+						step = 0;
+					}
+				}
+				this.comboToSubmit -= step;
 				this.submitComboHandle = this.comboSelectedHandle;
 			} else if((arrowDown || wheelDown) && this.comboToSubmit < this.comboSelectedTexts.length - 1) {
-				this.comboToSubmit++;
+				var step = 1;
+				if(this.comboSearchBar && this.textSelected.length > 0) {
+					var search = this.textSelected.toLowerCase();
+					while(this.comboSelectedTexts[this.comboToSubmit + step].toLowerCase().indexOf(search) < 0 && this.comboToSubmit + step < this.comboSelectedTexts.length - 1) ++step;
+					if(this.comboSelectedTexts[this.comboToSubmit + step].toLowerCase().indexOf(search) < 0) {
+						step = 0;
+					}
+				}
+				this.comboToSubmit += step;
 				this.submitComboHandle = this.comboSelectedHandle;
 			}
 			if(this.comboSelectedWindow != null) {
@@ -41211,10 +41293,35 @@ zui_Zui.prototype = {
 		var _ELEMENT_OFFSET = this.t.ELEMENT_OFFSET;
 		this.t.ELEMENT_OFFSET = 0;
 		var unrollRight = this._x + this.comboSelectedW * 2 < kha_System.windowWidth() - this.windowBorderRight ? 1 : -1;
+		var resetPosition = false;
+		var search = "";
+		if(this.comboSearchBar) {
+			if(unrollUp) {
+				this._y -= this.t.ELEMENT_H * this.ops.scaleFactor * 2;
+			}
+			var comboSearchHandle = zui_Handle.global.nest(0,null);
+			if(zui_Zui.comboFirst) {
+				comboSearchHandle.text = "";
+			}
+			this.fill(0,0,this._w / this.ops.scaleFactor,this.t.ELEMENT_H * this.ops.scaleFactor / this.ops.scaleFactor,this.t.SEPARATOR_COL);
+			search = this.textInput(comboSearchHandle,"",0,true,true).toLowerCase();
+			if(zui_Zui.comboFirst) {
+				this.startTextEdit(comboSearchHandle);
+			}
+			resetPosition = comboSearchHandle.changed;
+		}
 		var _g1 = 0;
 		var _g2 = this.comboSelectedTexts.length;
 		while(_g1 < _g2) {
 			var i = _g1++;
+			if(search.length > 0 && this.comboSelectedTexts[i].toLowerCase().indexOf(search) < 0) {
+				continue;
+			}
+			if(resetPosition) {
+				this.comboToSubmit = this.comboSelectedHandle.position = i;
+				this.submitComboHandle = this.comboSelectedHandle;
+				resetPosition = false;
+			}
 			if(unrollUp) {
 				this._y -= this.t.ELEMENT_H * this.ops.scaleFactor * 2;
 			}
@@ -41250,7 +41357,7 @@ zui_Zui.prototype = {
 				this.drawString(this.g,this.comboSelectedLabel,null,0,2);
 			}
 		}
-		if((this.inputReleased || this.isEscapeDown || this.isReturnDown) && !zui_Zui.comboFirst) {
+		if((this.inputReleased || this.inputReleasedR || this.isEscapeDown || this.isReturnDown) && !zui_Zui.comboFirst) {
 			this.comboSelectedHandle = null;
 			zui_Zui.comboFirst = true;
 		} else {
@@ -41745,6 +41852,7 @@ armory_trait_physics_bullet_RigidBody.CF_CHARACTER_OBJECT = 16;
 armory_trait_physics_bullet_RigidBody.convexHullCache = new haxe_ds_ObjectMap();
 armory_trait_physics_bullet_RigidBody.triangleMeshCache = new haxe_ds_ObjectMap();
 armory_trait_physics_bullet_RigidBody.usersCache = new haxe_ds_ObjectMap();
+zui_Handle.global = new zui_Handle();
 armory_ui_Canvas.assetMap = new haxe_ds_IntMap();
 armory_ui_Canvas.themes = [];
 armory_ui_Canvas.events = [];
